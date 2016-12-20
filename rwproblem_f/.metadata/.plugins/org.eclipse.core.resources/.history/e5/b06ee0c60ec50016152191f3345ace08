@@ -1,0 +1,94 @@
+package rwproblem;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.TextArea;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class writer_window extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					writer_window frame = new writer_window();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public writer_window() throws IOException{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		TextArea textArea = new TextArea();
+		contentPane.add(textArea, BorderLayout.CENTER);
+		
+		JButton btnNewButton = new JButton("儲存");
+		contentPane.add(btnNewButton, BorderLayout.SOUTH);
+		FileReader fr = new FileReader("/Volumes/TOSHIBA EXT/政＿105年上學期/作業系統/rwproblem/rwFile.txt");
+		BufferedReader br = new BufferedReader(fr);
+		while(br.ready()){
+			textArea.append(br.readLine()+"\n");
+		}
+		fr.close();
+	
+		Scanner sc = new Scanner(System.in);
+		String[] s = new String[1000];
+		int i = 0;
+		while(sc.hasNext()){
+			s[i] = sc.nextLine();
+			i++;
+		}
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+				FileWriter fw = new FileWriter("/Volumes/TOSHIBA EXT/政＿105年上學期/作業系統/rwproblem/rwFile.txt", true);
+				int i = 0;
+				while(!s[i].isEmpty()){
+					fw.write(s[i]);
+				}
+				fw.close();
+				
+				FileReader fr = new FileReader("/Volumes/TOSHIBA EXT/政＿105年上學期/作業系統/rwproblem/rwFile.txt");
+				BufferedReader br = new BufferedReader(fr);
+				while(br.ready()){
+					System.out.println(br.readLine());
+				}
+				fr.close();
+			}catch(IOException exc){System.out.println("IOException");}
+			}
+		});
+
+}
+}

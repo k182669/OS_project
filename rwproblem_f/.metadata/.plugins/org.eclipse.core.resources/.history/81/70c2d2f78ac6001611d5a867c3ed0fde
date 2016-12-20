@@ -1,0 +1,7 @@
+package rwproblem;
+
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class HighPriorityQueue {
+	public static ConcurrentLinkedQueue<Thread> q = new ConcurrentLinkedQueue<Thread>();
+}

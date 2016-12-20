@@ -1,0 +1,28 @@
+package rwproblem;
+
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class reader{
+	//private int reader_counter;
+	public static int reader_counter;
+	public static boolean readerDoing = true;
+	public static ConcurrentLinkedQueue<NewReader> qr = new ConcurrentLinkedQueue<NewReader>();
+	
+	public reader(int rc){
+		this.reader_counter = rc;
+	}
+	
+	public static int getReader_counter() {
+		return reader_counter;
+	}
+	
+	public static void setReader_counter(int reader_counter) {
+		reader_counter = reader_counter;
+	}
+	
+	public static void show(){
+		for(Thread t: qr){
+			t.start();
+		}
+	}
+}

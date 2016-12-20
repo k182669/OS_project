@@ -1,0 +1,6 @@
+package rwproblem;
+
+public class writer {
+	public static boolean start = true;
+	public static boolean writerStart = true;
+}

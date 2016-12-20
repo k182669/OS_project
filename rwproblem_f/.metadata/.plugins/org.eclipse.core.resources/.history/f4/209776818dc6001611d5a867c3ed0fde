@@ -1,0 +1,10 @@
+package rwproblem;
+
+public class timeArr {
+	public static int[] timeArr = new int[100];
+	public static reader_window[] threadArr = new reader_window[100];
+
+	public void show() {
+		System.out.println("enter");
+	}
+}

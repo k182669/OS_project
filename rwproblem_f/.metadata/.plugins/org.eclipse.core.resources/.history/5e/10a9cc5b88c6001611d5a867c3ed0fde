@@ -1,0 +1,49 @@
+package rwproblem;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.Date;
+
+public class NewReader extends Thread implements Runnable {
+
+	public void run() {
+			reader_window rw;
+			try {
+				rw = new reader_window();
+				int ss = rw.s.getSeconds();
+				rw.setLocation(0, 0);
+				reader.reader_counter++;
+				System.out.println("plus=" + reader.getReader_counter());
+				
+				rw.setVisible(true);
+				rw.setAlwaysOnTop(true);
+				rw.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent event) {
+						reader.reader_counter--;
+						System.out.println("sub=" + reader.getReader_counter());
+						rw.dispose();
+					}
+				});
+				
+				do{
+					Date e = new Date();
+					int es = e.getSeconds();
+					System.out.println(es-ss);
+					if(es-ss>=30){
+						rw.dispose();
+					}
+				}while(true);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	}
+
+	public int getCount() {
+		return reader.getReader_counter();
+	}
+
+}

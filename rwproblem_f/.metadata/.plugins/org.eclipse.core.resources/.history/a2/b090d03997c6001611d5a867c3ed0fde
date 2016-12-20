@@ -1,0 +1,32 @@
+package rwproblem;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class writer {
+	public static boolean start = true;
+	public static boolean writerStart = true;
+	public static writer_window nw;
+	public static ConcurrentLinkedQueue<NewWriter> q = new ConcurrentLinkedQueue<NewWriter>();
+
+	public static void del() {
+		nw.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent event) {
+				nw.dispose();
+				writer.writerStart = true;
+				if (!q.isEmpty()) {
+					newWriterWindow();
+				}
+			}
+		});
+	}
+
+	public static void newWriterWindow() {
+			NewWriter waitWriter = q.poll();
+			waitWriter.start();
+			System.out.println("success");
+			writerStart = false;
+	}
+}

@@ -1,0 +1,18 @@
+package rwproblem;
+
+public class reader{
+	//private int reader_counter;
+	public static int reader_counter;
+	
+	public reader(){
+		this.reader_counter = 0;
+	}
+	
+	public static int getReader_counter() {
+		return reader_counter;
+	}
+	
+	public static void setReader_counter(int reader_counter) {
+		reader_counter = reader_counter;
+	}
+}

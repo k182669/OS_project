@@ -1,0 +1,40 @@
+package rwproblem;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+
+public class NewReader extends Thread {
+
+	private reader r = new reader(0);
+
+	public void run() {
+		reader_window rw;
+		try {
+			rw = new reader_window();
+			rw.setLocation(0, 0);
+			//r.setReader_counter(r.getReader_counter() + 1);
+			System.out.println("plus=" + this.activeCount());
+			rw.setVisible(true);
+			rw.setAlwaysOnTop(true);
+			rw.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent event) {
+					//r.setReader_counter(r.getReader_counter() - 1);
+					System.out.println("sub=" + activeCount());
+					rw.dispose();
+				}
+			});
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public int getCount() {
+		return this.r.getReader_counter();
+	}
+
+	
+
+}
