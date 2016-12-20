@@ -1,0 +1,24 @@
+package rwproblem;
+
+import java.awt.*;
+import javax.swing.*;
+public class rw {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+/*
+ * reader r & writer w
+ * 當r讀取時，可以分享給無限數量的reader
+ * 但是當w改動時，必須互斥
+ * 問題一：當w開始改寫時，沒有r可以進去，產生r的飢餓
+ * 問題二：當有任何waiting reader的時候，writer不能進去，產生w的飢餓
+ */
+		JFrame demo = new JFrame();
+		demo.setSize(1440, 900);
+		demo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		demo.setIconImage(demo.getToolkit().getImage("file.png"));
+		
+	}
+
+}

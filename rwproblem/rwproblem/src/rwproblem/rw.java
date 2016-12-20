@@ -1,0 +1,22 @@
+package rwproblem;
+
+import java.awt.*;
+import java.io.IOException;
+
+import javax.swing.*;
+public class rw {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+/*
+ * reader r & writer w
+ * 當r讀取時，可以分享給無限數量的reader
+ * 但是當w改動時，必須互斥
+ * 問題一：當w開始改寫時，沒有r可以進去，產生r的飢餓
+ * 問題二：當有任何waiting reader的時候，writer不能進去，產生w的飢餓
+ */
+	userInt userInterface = new userInt();	
+	
+	}
+
+}

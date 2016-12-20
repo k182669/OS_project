@@ -1,0 +1,5 @@
+package rwproblem;
+
+public interface Read {
+	abstract public int reader_counter;
+}

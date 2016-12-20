@@ -1,0 +1,13 @@
+package rwproblem;
+
+public class reader implements Read{
+	//private int reader_counter;
+	@Override
+	public int getReader_counter() {
+		return reader_counter;
+	}
+	@Override
+	public void setReader_counter(int reader_counter) {
+		reader_counter = reader_counter;
+	}
+}

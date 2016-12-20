@@ -1,0 +1,66 @@
+package rwproblem;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.TextArea;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+public class writer_window extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					writer_window frame = new writer_window();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public writer_window() throws IOException{
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		TextArea textArea = new TextArea();
+		contentPane.add(textArea, BorderLayout.CENTER);
+		FileWriter fw = new FileWriter("/Volumes/TOSHIBA EXT/政＿105年上學期/作業系統/rwproblem/rwFile.txt", true);
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write("text");
+		fw.close();
+		/*FileReader fr = new FileReader("/Volumes/TOSHIBA EXT/政＿105年上學期/作業系統/rwproblem/rwFile.txt");
+		BufferedReader br = new BufferedReader(fr);
+		while(br.ready()){
+			textArea.append(br.readLine()+"\n");
+		}
+		fr.close();*/
+	}
+
+}

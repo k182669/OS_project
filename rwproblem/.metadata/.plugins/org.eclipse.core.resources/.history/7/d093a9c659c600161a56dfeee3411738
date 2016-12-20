@@ -1,0 +1,51 @@
+package rwproblem;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+
+public class NewReader extends Thread {
+
+	public static void main(String[] args) {
+	}
+	// TODO Auto-generated method stub
+
+	private reader r = new reader(0);
+
+	public void run() {
+		reader_window[] rwArr = new reader_window[100];
+		try {
+			rwArr[r.getReader_counter()] = newRead();
+			rwArr[r.getReader_counter()].setAlwaysOnTop(true);
+			System.out.println("getwindow");
+			for (int i = 0; i <= r.getReader_counter(); i++) {
+				rwArr[i].setVisible(true);
+				System.out.println("get visible");
+			}
+			// setReadNum(1);
+			r.setReader_counter(r.getReader_counter() + 1);
+			reader_window rw;
+			rw = newRead();
+			System.out.println("plus=" + r.getReader_counter());
+			rw.setAlwaysOnTop(true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public reader_window newRead() throws IOException {
+		reader_window rw = new reader_window();
+		rw.setLocation(0, 0);
+		rw.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent event) {
+				r.setReader_counter(r.getReader_counter() - 1);
+				System.out.println("sub=" + r.getReader_counter());
+				rw.dispose();
+			}
+		});
+		return rw;
+	}
+
+}
