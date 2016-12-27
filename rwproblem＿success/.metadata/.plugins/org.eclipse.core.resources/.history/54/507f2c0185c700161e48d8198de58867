@@ -1,0 +1,70 @@
+package rwproblem;
+
+import java.util.Date;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class reader {
+	// private int reader_counter;
+	public static int reader_counter;// 記錄現在有開啟幾個reader
+	public static boolean readerDoing = true;// 避免同時產生reader造成count不同步
+	public static ConcurrentLinkedQueue<NewReader> qr = new ConcurrentLinkedQueue<NewReader>();// 紀錄在有writer下的時候，被點擊卻無法開啟的reader
+
+	public reader(int rc) {
+		this.reader_counter = rc;
+	}
+
+	public static void show() throws InterruptedException {
+		int j = 0;// 當writer結束之後，將writer時間開啟的reader全部開啟
+		while (!qr.isEmpty()) {// 當佇列中還有reader
+			NewReader nr = qr.poll();// 從佇列中取第一個reader
+			timeArr.threadArr[j] = nr;// 將NewReader放入陣列中與time相對應
+			Thread.sleep(1000);// 等待一秒鐘，避免同時間無法重複start thread
+			Date d = new Date();// 取得reader被start的時間
+			int s = d.getSeconds();
+			int m = d.getMinutes();
+			timeArr.timeArr[j] = m * 60 + s;
+			timeArr.threadArr[j].start();// start這個NewReader
+			j++;// array index++
+		}
+		countTime();
+	}
+
+	public static void showNumber(NewReader[] nrArr) throws InterruptedException {// 當reader和writer都有在等候時
+		for (int i = 0; i < nrArr.length; i++) {// 取得的reader數量，來自priority
+			timeArr.threadArr[i] = nrArr[i];// 將NewReader放入陣列中
+			Thread.sleep(1000);
+			Date d = new Date();
+			int s = d.getSeconds();
+			int m = d.getMinutes();
+			timeArr.timeArr[i] = m * 60 + s;
+			timeArr.threadArr[i].start();
+			writer.turnToReader = false;
+		}
+		countTime();
+		while (reader_counter != 0)
+			;
+		if (!writer.q.isEmpty()) {
+			writer.del();
+		}
+	}
+
+	public static void countTime() {
+		boolean b = true;// 當所有reader超過十秒鐘，全部刪除跳出
+		do {
+			Date now = new Date();// 取得現在時間
+			int e = now.getSeconds();// 現在秒數
+			int em = now.getMinutes();// 現在分鐘
+			int end = em * 60 + e;// 轉換成秒數，和start時的時間相減，取得此介面開啟時間
+			for (int i = 0; i < reader.reader_counter; i++) {// 跑每個開啟的reader界面
+				//timeArr.threadArr[i].exitReader();
+				if (end - timeArr.timeArr[i] < 10) {// 當時間未超過十秒
+					b = true;// 當有一個為超過十秒，無法跳出
+				} else {// 其中一個超過十秒
+					b = false;// 可能會跳出
+					timeArr.threadArr[i].exit();// 跳到NewReader，執行jFrame的dispose
+					System.out.println(i + ":" + (end - timeArr.timeArr[i]));
+				}
+			}
+		} while (b);// 當有一個未到十秒即繼續
+	}
+}

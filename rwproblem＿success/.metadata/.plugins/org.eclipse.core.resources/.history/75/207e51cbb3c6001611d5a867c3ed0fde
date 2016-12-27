@@ -1,0 +1,47 @@
+package rwproblem;
+
+import java.util.Date;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class reader {
+	// private int reader_counter;
+	public static int reader_counter;
+	public static boolean readerDoing = true;
+	public static ConcurrentLinkedQueue<NewReader> qr = new ConcurrentLinkedQueue<NewReader>();
+
+	public reader(int rc) {
+		this.reader_counter = rc;
+	}
+
+	public static int getReader_counter() {
+		return reader_counter;
+	}
+
+	public static void setReader_counter(int reader_counter) {
+		reader_counter = reader_counter;
+	}
+
+	public static void show() throws InterruptedException {
+		while (!qr.isEmpty()) {
+			Date d = new Date();
+			int s = d.getSeconds();
+			timeArr.timeArr[reader_counter] = s;
+
+			// timeArr.threadArr[reader_counter].start();
+			// StartThread(timeArr.threadArr[reader_counter]);
+			NewReader nr = new NewReader();
+			nr = qr.poll();
+			timeArr.threadArr[reader_counter] = nr;
+			Thread.sleep(1000);
+			timeArr.threadArr[reader_counter].start();
+			//timeArr.threadArr[reader_counter].start();
+			reader_counter++;
+			System.out.println("show" + reader_counter);
+		}
+	}
+
+	public static void StartThread(NewReader nr) {
+		nr.start();
+		System.out.println("start");
+	}
+}

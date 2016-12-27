@@ -1,0 +1,73 @@
+package rwproblem;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Date;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class writer {
+	public static boolean start = true;// 在writer查看是否有reader在並且產生時間中，避免reader再次生成
+	public static boolean writerStart = true;// 若有writer存在，則為false，不讓其他w或r生成
+	public static ConcurrentLinkedQueue<NewWriter> q = new ConcurrentLinkedQueue<NewWriter>();// 存放等待的writer
+	public static int time;// 取得writer生成或輸入的時間
+	public static NewWriter nw;
+	public static boolean turnToReader;
+	public static boolean couldDel;
+
+	public static void del() throws InterruptedException {
+		System.out.println("has it delete?");
+		if (!couldDel) {//避免在NewWriter中exitWriter重複刪除而造成null point
+			couldDel = true;//下一個先設定為可以刪除
+		} else {
+			System.out.println("delete");
+			nw.ww.dispose();//還沒被刪除過，在此刪除
+		}
+		
+		if (!q.isEmpty() && reader.qr.isEmpty()) {//還有writer在等，沒有reader在等
+			writerStart = true;//還未有writer開啟，先設定讓reader可以開啟
+			reader.hasWaiting = false;//暫時回復設定沒有writer或reader在等待
+			newWriterWindow();//呼叫方法，新增writer的window
+		} else if (!q.isEmpty() && !reader.qr.isEmpty()) {//writer和reader都有在等待
+			reader.hasWaiting = true;//還有reader在等，也還有writer在等，reader在此時新增必須放入等待佇列中
+			priority.count();//呼叫priority class的方法，去計算reader和writer的比例
+		} else {
+			writer.writerStart = true;//還未有writer開啟，先設定讓reader可以開啟
+			reader.hasWaiting = false;
+			reader.show();
+		}
+	}
+
+	public static void newWriterWindow() throws InterruptedException {
+		nw = q.poll();
+		//nw.start();
+		writerStart = false;
+		countTime();
+	}
+
+	public static void countTime() throws InterruptedException {
+		//nw = q.poll();
+		nw.start();
+		boolean b = true;
+		System.out.println("writer time count");
+		//nw.exitWriter();
+		do {
+			Date d = new Date();
+			int s = d.getSeconds();
+			int m = d.getMinutes();
+			System.out.println("boolean:"+b+",start:"+writerStart+",time:"+(s+m*60-time));
+			if (s + m * 60 - time >= 10) {
+				// waitWriter.exitWriter();
+				//nw.exitWriter();
+				//nw.ww.dispose();
+				System.out.println("enter the delete");
+				b = false;
+				writerStart = true;
+				couldDel = true;
+				writer.del();
+			}
+			
+			// System.out.println("wtime:"+(s+m*60-time));
+		} while (b && !writerStart);
+	}
+}
